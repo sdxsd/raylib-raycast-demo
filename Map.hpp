@@ -13,7 +13,7 @@ class Map {
 		int			width;
 		IntVector2	startPos;
 	public:
-		Map(int x, int y);
+		Map(const int x, const int y);
 		~Map(void);
 		char	**mapGenerate(void);
 		void	printMap(void);

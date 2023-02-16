@@ -10,7 +10,7 @@ class RayCamera {
 		Vector2 dV;
 		Vector2 pV;
 		RayCamera(void);
-		RayCamera(IntVector2 startPos);
+		RayCamera(const IntVector2& startPos);
 		RayCamera& operator=(const IntVector2& camPosVec);
 };
 

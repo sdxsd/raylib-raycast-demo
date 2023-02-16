@@ -15,8 +15,8 @@ int main(void) {
 	SetTargetFPS(60);
 
 	while (!WindowShouldClose()) {
-		frame = rayCaster.renderFrame();
-		frameTex = LoadTextureFromImage(frame);
+		// frame = rayCaster.renderFrame();
+		// frameTex = LoadTextureFromImage(frame);
 		BeginDrawing();
 			DrawTexture(frameTex, 0, 0, WHITE);
 		EndDrawing();

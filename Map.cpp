@@ -9,18 +9,15 @@
 #include <time.h>
 #include <stdio.h>
 
-Map::Map(int x, int y) {
+Map::Map(const int x, const int y) {
 	width = x;
 	height = y;
 
-	mapData = (char**)calloc(sizeof(char*), height);
-	if (!mapData)
-		throw printf("Malloc failure\n");
-	for (int i = 0; i <= height; i++)
-		if (!(mapData[i] = (char*)calloc(sizeof(char), width)))
-			throw printf("Malloc failure\n");
-	for (int i = 0; i <= height; i++)
-		for (int z = 0; z <= width; z++)
+	mapData = new char*[y + 1];
+	for (int i = 0; i < y + 1; i++)
+		mapData[i] = new char[x + 1];
+	for (int i = 0; i < height; i++)
+		for (int z = 0; z < width; z++)
 			mapData[i][z] = '#';
 	mapGenerate();
 }
@@ -57,6 +54,8 @@ char **Map::mapGenerate(void) {
 	start_y = GetRandomValue(0, height);
 	x = start_x;
 	y = start_y;
+	startPos.x = start_x;
+	startPos.y = start_y;
 	while (g_tunnels < MAX_TUNNELS - 30) {
 		SetRandomSeed(get_seed());
 		length = GetRandomValue(4, TUNNEL_LENGTH);
