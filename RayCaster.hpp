@@ -10,17 +10,7 @@
 #define WIN_WIDTH 640
 #define WIN_HEIGHT 640
 
-typedef struct s_IntVector2 {
-	int	x;
-	int	y;
-} IntVector2;
-
-typedef struct s_vertLine {
-	Color	color;
-	int	xCoord;
-	int	startPoint;
-	int	endPoint;
-}	VertLine;
+#include "Structs.hpp"
 
 class RayCaster {
 	private:
