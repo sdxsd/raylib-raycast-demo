@@ -138,6 +138,12 @@ void RayCaster::handleInput() {
 	  rayCam.pV.x = rayCam.pV.x * cos(-rotSpeed) - rayCam.pV.y * sin(-rotSpeed);
 	  rayCam.pV.y = oldPlaneX * sin(-rotSpeed) + rayCam.pV.y * cos(-rotSpeed);
   }
-  if (IsKeyDown(KEY_RIGHT))
-	  ;
+  if (IsKeyDown(KEY_LEFT)) {
+	  double oldDirX = rayCam.dV.x;
+	  rayCam.dV.x = rayCam.dV.x * cos(rotSpeed) - rayCam.dV.y * sin(rotSpeed);
+	  rayCam.dV.y = oldDirX * sin(rotSpeed) + rayCam.dV.y * cos(rotSpeed);
+	  double oldPlaneX = rayCam.pV.x;
+	  rayCam.pV.x = rayCam.pV.x * cos(rotSpeed) - rayCam.pV.y * sin(rotSpeed);
+	  rayCam.pV.y = oldPlaneX * sin(rotSpeed) + rayCam.pV.y * cos(rotSpeed);
+  }
 }
