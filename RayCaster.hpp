@@ -24,6 +24,7 @@ class RayCaster {
 		RayCaster(int x, int y);
 		~RayCaster(void);
 		Image&	renderFrame(void);
+		void	handleInput(void);
 };
 
 #endif // RAYCASTER_H

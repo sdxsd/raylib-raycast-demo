@@ -1,5 +1,6 @@
 #include "RayCaster.hpp"
 #include <iostream>
+#include <math.h>
 
 VertLine RayCaster::castRay(RayCamera &rayCam, int x) {
   VertLine result;
@@ -107,4 +108,28 @@ RayCaster::RayCaster(void):
 
 RayCaster::~RayCaster(void) {
 	;
+}
+
+void RayCaster::handleInput() {
+	float deltaTime = GetFrameTime();
+	float moveSpeed = 5.0 * deltaTime;
+	float rotSpeed = 3.0 * deltaTime;
+
+  if (IsKeyDown(KEY_UP))
+	  if (map.getCoord((int)(rayCam.camPos.x + rayCam.dV.x * moveSpeed), int(rayCam.camPos.y)) != '#')
+		  rayCam.camPos.x += rayCam.dV.x * moveSpeed;
+  if (IsKeyDown(KEY_DOWN))
+	  if (map.getCoord((int)(rayCam.camPos.x - rayCam.dV.x * moveSpeed), int(rayCam.camPos.y) != '#'))
+		  rayCam.camPos.x += rayCam.dV.x * moveSpeed;
+  if (IsKeyDown(KEY_LEFT))
+  {
+	  double oldDirX = rayCam.dV.x;
+	  dirX = dirX * cos(-rotSpeed) - dirY * sin(-rotSpeed);
+	  dirY = oldDirX * sin(-rotSpeed) + dirY * cos(-rotSpeed);
+	  double oldPlaneX = planeX;
+	  planeX = planeX * cos(-rotSpeed) - planeY * sin(-rotSpeed);
+	  planeY = oldPlaneX * sin(-rotSpeed) + planeY * cos(-rotSpeed);
+  }
+  if (IsKeyDown(KEY_RIGHT))
+	player->pos_vec.x += deltaTime * player_move_speed;
 }

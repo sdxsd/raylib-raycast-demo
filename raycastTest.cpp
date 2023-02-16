@@ -13,8 +13,10 @@ int main(void) {
 			frame = rayCaster.renderFrame();
 			frameTex = LoadTextureFromImage(frame);
 			BeginDrawing();
-			DrawTexture(frameTex, 0, 0, WHITE);
+				ClearBackground(BLACK);
+				DrawTexture(frameTex, 0, 0, WHITE);
 			EndDrawing();
 			UnloadTexture(frameTex);
+			rayCaster.handleInput();
 		}
 }
