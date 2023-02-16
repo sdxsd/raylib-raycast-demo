@@ -28,6 +28,8 @@ VertLine RayCaster::castRay(RayCamera &rayCam, int x) {
 	stepY = -1;
 	sideDistY = (rayCam.camPos.y - mapY) * deltaDistY;
   } else {
+	  stepY = 1;
+	  sideDistY = (mapY + 1.0 - rayCam.camPos.y) * deltaDistY;
   }
   while (hit == 0) {
 	if (sideDistX < sideDistY) {
@@ -38,6 +40,7 @@ VertLine RayCaster::castRay(RayCamera &rayCam, int x) {
 	  sideDistY += deltaDistY;
 	  mapY += stepY;
 	  side = 1;
+	  std::cout << "mapy" << mapY << std::endl;
 	}
 	if (map.getCoord(mapX, mapY) > 0) {
 	  std::cout << "hit" << std::endl;
@@ -87,6 +90,7 @@ VertLine RayCaster::castRay(RayCamera &rayCam, int x) {
 }
 
 void	RayCaster::drawVert(VertLine line) {
+	std::cout << line.xCoord << std::endl;
 	ImageDrawLine(&imageBuffer, line.xCoord, line.startPoint, line.xCoord, line.endPoint, line.color);
 }
 
@@ -99,6 +103,7 @@ Image& RayCaster::renderFrame() {
 RayCaster::RayCaster(void):
 	map(D_MAPSIZE_X, D_MAPSIZE_Y) {
 	rayCam = map.getStart();
+	imageBuffer = GenImageColor(WIN_WIDTH, WIN_HEIGHT, WHITE);
 	std::cout << "RayCaster sucessfully constructed.";
 }
 

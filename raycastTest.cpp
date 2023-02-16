@@ -10,11 +10,13 @@ int main(void) {
 	InitWindow(WIN_WIDTH, WIN_HEIGHT, "Raycast-raylib-demo");
 	SetTargetFPS(60);
 
-	while (!WindowShouldClose()) {
 		frame = rayCaster.renderFrame();
 		frameTex = LoadTextureFromImage(frame);
 		BeginDrawing();
 			DrawTexture(frameTex, 0, 0, WHITE);
 		EndDrawing();
-	}
+		UnloadTexture(frameTex);
+		while (!WindowShouldClose()) {
+			;
+		}
 }
