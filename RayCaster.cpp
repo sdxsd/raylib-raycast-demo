@@ -78,7 +78,7 @@ VertLine RayCaster::castRay(RayCamera &rayCam, int x) {
 
   // give x and y sides different brightness
   if (side == 1) {
-	color.r -= 5, color.b -= 5, color.g -= 5;
+	color.r -= 10, color.b -= 10, color.g -= 10;
   };
   result.xCoord = x;
   result.startPoint = drawStart;
