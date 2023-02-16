@@ -7,6 +7,9 @@
 #define D_MAPSIZE_X 24
 #define D_MAPSIZE_Y 24
 
+#define WIN_WIDTH 640
+#define WIN_HEIGHT 640
+
 typedef struct s_IntVector2 {
 	int	x;
 	int	y;
@@ -24,7 +27,7 @@ class RayCaster {
 		Image		imageBuffer;
 		RayCamera	rayCam;
 		Map			map;
-		VertLine&	castRay(int x);
+		VertLine	castRay(RayCamera& rayCam, int x);
 		void		drawVert(VertLine& line);
 	public:
 		RayCaster(void);

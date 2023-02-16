@@ -3,15 +3,18 @@
 
 class Map {
 	private:
-		char	**map_data;
+		char	**mapData;
 		int		height;
 		int		width;
 	public:
 		Map(int x, int y);
-		~Map(void);
-		char	**map_generate(void);
-		void	print_map(void);
-		void	border_walls(void);
+		char	**mapGenerate(void);
+		void	printMap(void);
+		void	borderWalls(void);
+		// Getters.
+		char	getCoord(int x, int y) { return (mapData[y][x]); };
+		int		getHeight(void) const { return (height); };
+		int		getWidth(void) const { return (width); };
 };
 
 #endif // MAP_H

@@ -4,12 +4,11 @@
 #include <raylib.h>
 
 class RayCamera {
-	private:
-		Vector2	camPos;
-		Vector2 dirV;
-		Vector2 planeV;
 	public:
-
+		Vector2	camPos;
+		Vector2 dV;
+		Vector2 pV;
+		RayCamera(int x, int y);
 };
 
 #endif // CAMERA_H
