@@ -28,7 +28,7 @@ class RayCaster {
 		RayCamera	rayCam;
 		Map			map;
 		VertLine	castRay(RayCamera& rayCam, int x);
-		void		drawVert(VertLine& line);
+		void		drawVert(VertLine line);
 	public:
 		RayCaster(void);
 		RayCaster(int x, int y);

@@ -9,6 +9,7 @@ NAME = raycaster
 CC = g++
 LIB = -lraylib
 FILES = \
+		RayCaster.cpp \
 		raycastTest.cpp
 
 all: $(NAME)

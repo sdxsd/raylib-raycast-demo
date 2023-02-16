@@ -1,14 +1,12 @@
 #include "RayCaster.hpp"
 #include <iostream>
 
-VertLine RayCaster::castRay(RayCamera& rayCam, int x) {
-	VertLine result;
-	float cameraX = 2 * x / double(WIN_WIDTH);
-	Vector2 rayDir = {
-	rayCam.dV.x + rayCam.pV.x * cameraX,
-	rayCam.dV.y + rayCam.pV.y * cameraX
-	};
-	int mapX = int(rayCam.camPos.x), mapY = int(rayCam.camPos.y);
+VertLine RayCaster::castRay(RayCamera &rayCam, int x) {
+  VertLine result;
+  float cameraX = 2 * x / double(WIN_WIDTH);
+  Vector2 rayDir = {rayCam.dV.x + rayCam.pV.x * cameraX,
+					rayCam.dV.y + rayCam.pV.y * cameraX};
+  int mapX = int(rayCam.camPos.x), mapY = int(rayCam.camPos.y);
   double sideDistX;
   double sideDistY;
   double deltaDistX = (rayDir.x == 0) ? 1e30 : std::abs(1 / rayDir.x);
@@ -41,7 +39,7 @@ VertLine RayCaster::castRay(RayCamera& rayCam, int x) {
 	  mapY += stepY;
 	  side = 1;
 	}
-	if (map[mapX][mapY] > 0) {
+	if (map.getCoord(mapX, mapY) > 0) {
 	  std::cout << "hit" << std::endl;
 	  hit = 1;
 	}
@@ -59,7 +57,7 @@ VertLine RayCaster::castRay(RayCamera& rayCam, int x) {
   if (drawEnd >= WIN_HEIGHT)
 	drawEnd = WIN_HEIGHT - 1;
   Color color;
-  switch (map[mapX][mapY]) {
+  switch (map.getCoord(mapX, mapY)) {
   case 1:
 	color = RED;
 	break; // red
@@ -79,20 +77,21 @@ VertLine RayCaster::castRay(RayCamera& rayCam, int x) {
 
   // give x and y sides different brightness
   if (side == 1) {
-	  color.r -= 5, color.b -= 5, color.g -= 5;
-
+	color.r -= 5, color.b -= 5, color.g -= 5;
   };
-	result.xCoord = x;
-	result.startPoint = drawStart;
-	result.endPoint = drawEnd;
-	result.color = color;
-	return (result);
+  result.xCoord = x;
+  result.startPoint = drawStart;
+  result.endPoint = drawEnd;
+  result.color = color;
+  return (result);
 }
 
-void	RayCaster::drawVert(VertLine& line) {
+void	RayCaster::drawVert(VertLine line) {
 	ImageDrawLine(&imageBuffer, line.xCoord, line.startPoint, line.xCoord, line.endPoint, line.color);
 }
 
 Image& RayCaster::renderFrame() {
-	;
+	for (int x = 0; x < WIN_WIDTH; x++)
+		drawVert(castRay(rayCam, x));
+	return (imageBuffer);
 }
