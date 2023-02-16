@@ -90,6 +90,13 @@ void Map::borderWalls(void) {
 }
 
 void Map::printMap(void) {
-	for (int i = 0; i < height; i++)
-		printf("%s\n", mapData[i]);
+	for (int i = 0; i < height; i++) {
+		for (int z = 0; z < width; z++) {
+			if (i == startPos.y && z == startPos.x)
+				std::cout << "p";
+			else
+				std::cout << mapData[i][z];
+		}
+		std::cout << std::endl;
+	}
 }
