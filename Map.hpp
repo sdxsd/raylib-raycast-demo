@@ -17,6 +17,7 @@ class Map {
 		~Map(void);
 		char	**mapGenerate(void);
 		void	printMap(void);
+		void	borderWalls(void);
 		// Getters.
 		char	getCoord(int x, int y) { return (mapData[y][x]); };
 		int		getHeight(void) const { return (height); };

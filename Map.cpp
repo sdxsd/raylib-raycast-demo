@@ -28,28 +28,13 @@ Map::~Map(void) {
 	std::cout << "Map freed" << std::endl;
 }
 
-int	get_seed(void) {
-	int	fd;
-	int	*num;
-	int	ret;
-
-	num = (int*)malloc(sizeof(int));
-	if (!num)
-		return (-1);
-	fd = open("/dev/urandom", O_RDONLY);
-	read(fd, num, sizeof(int));
-	ret = *num;
-	free(num);
-	close(fd);
-	return (ret);
-}
-
 char **Map::mapGenerate(void) {
 	int	g_tunnels = 0;
 	int	start_x, start_y, x, y;
 	int	length, direction, last_direction;
 
 	last_direction = -1;
+	SetRandomSeed(time(NULL));
 	start_x = GetRandomValue(0, width);
 	start_y = GetRandomValue(0, height);
 	x = start_x;
@@ -57,7 +42,7 @@ char **Map::mapGenerate(void) {
 	startPos.x = start_x;
 	startPos.y = start_y;
 	while (g_tunnels < MAX_TUNNELS - 30) {
-		SetRandomSeed(get_seed());
+		SetRandomSeed(time(NULL));
 		length = GetRandomValue(4, TUNNEL_LENGTH);
 		direction = GetRandomValue(0,3);
 		if (last_direction == 0 || last_direction == 1)
@@ -85,5 +70,26 @@ char **Map::mapGenerate(void) {
 		}
 		g_tunnels++;
 	}
+	borderWalls();
 	return (mapData);
+}
+
+void Map::borderWalls(void) {
+	int	iterator_y = 0;
+	int	iterator_x = 0;
+
+	while (iterator_y++ < height)
+	{
+		mapData[iterator_y][width] = '#';
+		mapData[iterator_y][0] = '#';
+	}
+	while (iterator_x++ < width) {
+		mapData[height - 1][iterator_x] = '#';
+		mapData[0][iterator_x] = '#';
+	}
+}
+
+void Map::printMap(void) {
+	for (int i = 0; i < height; i++)
+		printf("%s\n", mapData[i]);
 }

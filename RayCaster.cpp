@@ -42,7 +42,7 @@ VertLine RayCaster::castRay(RayCamera &rayCam, int x) {
 	  side = 1;
 	  std::cout << "mapy" << mapY << std::endl;
 	}
-	if (map.getCoord(mapX, mapY) > 0) {
+	if (map.getCoord(mapX, mapY) == '#') {
 	  std::cout << "hit" << std::endl;
 	  hit = 1;
 	}
@@ -52,7 +52,11 @@ VertLine RayCaster::castRay(RayCamera &rayCam, int x) {
   else
 	perpWallDist = (sideDistY - deltaDistY);
 
-  int lineHeight = (int)(WIN_HEIGHT / perpWallDist);
+  std::cout << rayCam.camPos.x << std::endl;
+  std::cout << rayCam.camPos.y << std::endl;
+  std::cout << "perpWallDist" << perpWallDist << std::endl;
+  int lineHeight = (int)((WIN_HEIGHT / perpWallDist));
+  std::cout << "lineHeight: " << lineHeight << std::endl;
   int drawStart = -lineHeight / 2 + WIN_HEIGHT / 2;
   if (drawStart < 0)
 	drawStart = 0;
@@ -61,7 +65,7 @@ VertLine RayCaster::castRay(RayCamera &rayCam, int x) {
 	drawEnd = WIN_HEIGHT - 1;
   Color color;
   switch (map.getCoord(mapX, mapY)) {
-  case 1:
+  case '#':
 	color = RED;
 	break; // red
   case 2:
@@ -83,14 +87,17 @@ VertLine RayCaster::castRay(RayCamera &rayCam, int x) {
 	color.r -= 5, color.b -= 5, color.g -= 5;
   };
   result.xCoord = x;
+  std::cout << "x:" << x << std::endl;
   result.startPoint = drawStart;
+  std::cout << "drawStart: " << drawStart << std::endl;
   result.endPoint = drawEnd;
+  std::cout << "drawEnd: " << drawEnd << std::endl;
+  std::cout << x << std::endl;
   result.color = color;
   return (result);
 }
 
 void	RayCaster::drawVert(VertLine line) {
-	std::cout << line.xCoord << std::endl;
 	ImageDrawLine(&imageBuffer, line.xCoord, line.startPoint, line.xCoord, line.endPoint, line.color);
 }
 
@@ -104,6 +111,7 @@ RayCaster::RayCaster(void):
 	map(D_MAPSIZE_X, D_MAPSIZE_Y) {
 	rayCam = map.getStart();
 	imageBuffer = GenImageColor(WIN_WIDTH, WIN_HEIGHT, WHITE);
+	map.printMap();
 	std::cout << "RayCaster sucessfully constructed.";
 }
 
