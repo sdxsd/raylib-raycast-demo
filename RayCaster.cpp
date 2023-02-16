@@ -97,6 +97,11 @@ Image& RayCaster::renderFrame() {
 }
 
 RayCaster::RayCaster(void):
-	map(D_MAPSIZE_X, D_MAPSIZE_Y), rayCam(map.getStart()) {
+	map(D_MAPSIZE_X, D_MAPSIZE_Y) {
+	rayCam = map.getStart();
 	std::cout << "RayCaster sucessfully constructed.";
+}
+
+RayCaster::~RayCaster(void) {
+	;
 }

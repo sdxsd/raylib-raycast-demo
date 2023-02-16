@@ -9,6 +9,7 @@ NAME = raycaster
 CC = g++
 LIB = -lraylib
 FILES = \
+		Map.cpp \
 		RayCaster.cpp \
 		raycastTest.cpp
 
