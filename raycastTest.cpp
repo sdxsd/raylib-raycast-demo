@@ -13,7 +13,6 @@ int main(void) {
 			frame = rayCaster.renderFrame();
 			frameTex = LoadTextureFromImage(frame);
 			BeginDrawing();
-				ClearBackground(BLACK);
 				DrawTexture(frameTex, 0, 0, WHITE);
 			EndDrawing();
 			UnloadTexture(frameTex);

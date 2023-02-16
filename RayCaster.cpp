@@ -1,6 +1,7 @@
 #include "RayCaster.hpp"
 #include <iostream>
 #include <math.h>
+#include <raylib.h>
 
 VertLine RayCaster::castRay(RayCamera &rayCam, int x) {
   VertLine result;
@@ -93,6 +94,7 @@ void	RayCaster::drawVert(VertLine line) {
 }
 
 Image& RayCaster::renderFrame() {
+	ImageClearBackground(&imageBuffer, BLACK);
 	for (int x = 0; x < WIN_WIDTH; x++)
 		drawVert(castRay(rayCam, x));
 	return (imageBuffer);
@@ -115,21 +117,27 @@ void RayCaster::handleInput() {
 	float moveSpeed = 5.0 * deltaTime;
 	float rotSpeed = 3.0 * deltaTime;
 
-  if (IsKeyDown(KEY_UP))
+  if (IsKeyDown(KEY_UP)) {
 	  if (map.getCoord((int)(rayCam.camPos.x + rayCam.dV.x * moveSpeed), int(rayCam.camPos.y)) != '#')
 		  rayCam.camPos.x += rayCam.dV.x * moveSpeed;
-  if (IsKeyDown(KEY_DOWN))
-	  if (map.getCoord((int)(rayCam.camPos.x - rayCam.dV.x * moveSpeed), int(rayCam.camPos.y) != '#'))
-		  rayCam.camPos.x += rayCam.dV.x * moveSpeed;
-  if (IsKeyDown(KEY_LEFT))
-  {
-	  double oldDirX = rayCam.dV.x;
-	  dirX = dirX * cos(-rotSpeed) - dirY * sin(-rotSpeed);
-	  dirY = oldDirX * sin(-rotSpeed) + dirY * cos(-rotSpeed);
-	  double oldPlaneX = planeX;
-	  planeX = planeX * cos(-rotSpeed) - planeY * sin(-rotSpeed);
-	  planeY = oldPlaneX * sin(-rotSpeed) + planeY * cos(-rotSpeed);
+	  if (map.getCoord(int(rayCam.camPos.x), (int)(rayCam.camPos.y + rayCam.dV.y * moveSpeed)) != '#')
+		  rayCam.camPos.y += rayCam.dV.y * moveSpeed;
+  }
+  if (IsKeyDown(KEY_DOWN)) {
+	  if (map.getCoord((int)(rayCam.camPos.x - rayCam.dV.x * moveSpeed), int(rayCam.camPos.y)) != '#')
+		  rayCam.camPos.x -= rayCam.dV.x * moveSpeed;
+	  if (map.getCoord(int(rayCam.camPos.x), (int)(rayCam.camPos.y - rayCam.dV.y * moveSpeed)) != '#')
+		  rayCam.camPos.y -= rayCam.dV.y * moveSpeed;
   }
   if (IsKeyDown(KEY_RIGHT))
-	player->pos_vec.x += deltaTime * player_move_speed;
+  {
+	  double oldDirX = rayCam.dV.x;
+	  rayCam.dV.x = rayCam.dV.x * cos(-rotSpeed) - rayCam.dV.y * sin(-rotSpeed);
+	  rayCam.dV.y = oldDirX * sin(-rotSpeed) + rayCam.dV.y * cos(-rotSpeed);
+	  double oldPlaneX = rayCam.pV.x;
+	  rayCam.pV.x = rayCam.pV.x * cos(-rotSpeed) - rayCam.pV.y * sin(-rotSpeed);
+	  rayCam.pV.y = oldPlaneX * sin(-rotSpeed) + rayCam.pV.y * cos(-rotSpeed);
+  }
+  if (IsKeyDown(KEY_RIGHT))
+	  ;
 }
