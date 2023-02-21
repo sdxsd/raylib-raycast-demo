@@ -15,10 +15,9 @@ class Map {
 	public:
 		Map(const int x, const int y);
 		~Map(void);
-		char	**mapGenerate(void);
-		void	printMap(void);
-		void	borderWalls(void);
-		// Getters.
+		char		**mapGenerate(void);
+		void		printMap(void);
+		void		borderWalls(void);
 		char		getCoord(int x, int y) { return (mapData[y][x]); };
 		int		getHeight(void) const { return (height); };
 		int		getWidth(void) const { return (width); };
