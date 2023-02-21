@@ -65,11 +65,10 @@ static int castUntilHit(RayVariables& ray, Map& map) {
 	return (side);
 }
 
-VertLine genLine(RayVariables& ray, Map& map, int x) {
+VertLine genLine(RayVariables& ray, Map& map, int x, int side) {
 	VertLine	result;
 	double		perpWallDist;
 	Color			color;
-	int				side;
 
 	if (side == 0)
 		perpWallDist = (ray.sideDistances.x - ray.deltaDistances.x);
@@ -84,7 +83,7 @@ VertLine genLine(RayVariables& ray, Map& map, int x) {
 		drawEnd = WIN_HEIGHT - 1;
 	color = getWallColor(map.getCoord(ray.ImapCoords.x, ray.ImapCoords.y));
 	if (side == 1) {
-		color.r -= 30, color.b -= 10, color.g -= 10;
+		color.r -= 10, color.b -= 10, color.g -= 10;
 	};
 	result.xCoord = x;
 	result.startPoint = drawStart;
@@ -104,8 +103,10 @@ VertLine RayCaster::castRay(RayCamera &rayCam, int x) {
 	ray.ImapCoords = { int(rayCam.camPos.x), int(rayCam.camPos.y) };
 	ray.deltaDistances = { abs(1 / ray.rayDir.x), abs(1 / ray.rayDir.y) };
 	setupStepDirection(ray, rayCam);
+	std::cout << ray.sideDistances.x << std::endl;
 	side = castUntilHit(ray, map);
-	return (genLine(ray, map, x));
+	std::cout << ray.sideDistances.x << std::endl;
+	return (genLine(ray, map, x, side));
 }
 
 void	RayCaster::drawVert(VertLine line) {
