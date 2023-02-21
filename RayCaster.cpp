@@ -4,64 +4,10 @@
 #include <stdlib.h>
 #include <raylib.h>
 
-VertLine RayCaster::castRay(RayCamera &rayCam, int x) {
-	VertLine result;
-	float cameraX = 2 * x / double(WIN_WIDTH) - 1;
-	Vector2 rayDir = {rayCam.dV.x + rayCam.pV.x * cameraX,
-	rayCam.dV.y + rayCam.pV.y * cameraX};
-	int mapX = int(rayCam.camPos.x), mapY = int(rayCam.camPos.y);
-	double sideDistX;
-	double sideDistY;
-	double deltaDistX = abs(1 / rayDir.x);
-	double deltaDistY = abs(1 / rayDir.y);
-	double perpWallDist;
-	int stepX;
-	int stepY;
-	int hit = 0;
-	int side;
+static Color getWallColor(char element) {
+	Color	color;
 
-	if (rayDir.x < 0) {
-		stepX = -1;
-		sideDistX = (rayCam.camPos.x - mapX) * deltaDistX;
-	} else {
-		stepX = 1;
-		sideDistX = (mapX + 1.0 - rayCam.camPos.x) * deltaDistX;
-	}
-	if (rayDir.y < 0) {
-		stepY = -1;
-		sideDistY = (rayCam.camPos.y - mapY) * deltaDistY;
-	} else {
-		stepY = 1;
-		sideDistY = (mapY + 1.0 - rayCam.camPos.y) * deltaDistY;
-	}
-	while (hit == 0) {
-		if (sideDistX < sideDistY) {
-			sideDistX += deltaDistX;
-			mapX += stepX;
-			side = 0;
-		} else {
-			sideDistY += deltaDistY;
-			mapY += stepY;
-			side = 1;
-		}
-		if (map.getCoord(mapX, mapY) == '#') {
-			hit = 1;
-		}
-	}
-	if (side == 0)
-		perpWallDist = (sideDistX - deltaDistX);
-	else
-		perpWallDist = (sideDistY - deltaDistY);
-
-	int lineHeight = (int)((WIN_HEIGHT / perpWallDist));
-	int drawStart = -lineHeight / 2 + WIN_HEIGHT / 2;
-	if (drawStart < 0)
-		drawStart = 0;
-	int drawEnd = lineHeight / 2 + WIN_HEIGHT / 2;
-	if (drawEnd >= WIN_HEIGHT)
-		drawEnd = WIN_HEIGHT - 1;
-	Color color;
-	switch (map.getCoord(mapX, mapY)) {
+	switch (element) {
 		case '#':
 			color = RED;
 			break; // red
@@ -78,6 +24,66 @@ VertLine RayCaster::castRay(RayCamera &rayCam, int x) {
 			color = YELLOW;
 			break; // yellow
 	}
+	return (color);
+}
+
+VertLine RayCaster::castRay(RayCamera &rayCam, int x) {
+	VertLine result;
+	RayVariables ray;
+	ray.cameraX = 2 * x / double(WIN_WIDTH) - 1;
+	ray.rayDir = {
+		rayCam.dV.x + rayCam.pV.x * ray.cameraX,
+		rayCam.dV.y + rayCam.pV.y * ray.cameraX
+	};
+	ray.ImapCoords = { int(rayCam.camPos.x), int(rayCam.camPos.y) };
+	ray.deltaDistances = { abs(1 / ray.rayDir.x), abs(1 / ray.rayDir.y) };
+	double perpWallDist;
+	int stepX;
+	int stepY;
+	int hit = 0;
+	int side;
+
+	if (ray.rayDir.x < 0) {
+		stepX = -1;
+		ray.sideDistances.x = (rayCam.camPos.x - ray.ImapCoords.x) * ray.deltaDistances.x;
+	} else {
+		stepX = 1;
+		ray.sideDistances.x = (ray.ImapCoords.x + 1.0 - rayCam.camPos.x) * ray.deltaDistances.x;
+	}
+	if (ray.rayDir.y < 0) {
+		stepY = -1;
+		ray.sideDistances.y = (rayCam.camPos.y - ray.ImapCoords.y) * ray.deltaDistances.y;
+	} else {
+		stepY = 1;
+		ray.sideDistances.y = (ray.ImapCoords.y + 1.0 - rayCam.camPos.y) * ray.deltaDistances.y;
+	}
+	while (hit == 0) {
+		if (ray.sideDistances.x < ray.sideDistances.y) {
+			ray.sideDistances.x += ray.deltaDistances.x;
+			ray.ImapCoords.x += stepX;
+			side = 0;
+		} else {
+			ray.sideDistances.y += ray.deltaDistances.y;
+			ray.ImapCoords.y += stepY;
+			side = 1;
+		}
+		if (map.getCoord(ray.ImapCoords.x, ray.ImapCoords.y) == '#') {
+			hit = 1;
+		}
+	}
+	if (side == 0)
+		perpWallDist = (ray.sideDistances.x - ray.deltaDistances.x);
+	else
+		perpWallDist = (ray.sideDistances.y - ray.deltaDistances.y);
+
+	int lineHeight = (int)((WIN_HEIGHT / perpWallDist));
+	int drawStart = -lineHeight / 2 + WIN_HEIGHT / 2;
+	if (drawStart < 0)
+		drawStart = 0;
+	int drawEnd = lineHeight / 2 + WIN_HEIGHT / 2;
+	if (drawEnd >= WIN_HEIGHT)
+		drawEnd = WIN_HEIGHT - 1;
+	Color color = getWallColor(map.getCoord(ray.ImapCoords.x, ray.ImapCoords.y));
 
 	// give x and y sides different brightness
 	if (side == 1) {
