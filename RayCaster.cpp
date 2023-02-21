@@ -65,7 +65,7 @@ static int castUntilHit(RayVariables& ray, Map& map) {
 	return (side);
 }
 
-VertLine genLine(RayVariables& ray, Map& map, int x, int side) {
+static VertLine genLine(RayVariables& ray, Map& map, int x, int side) {
 	VertLine	result;
 	double		perpWallDist;
 	Color			color;
@@ -93,7 +93,6 @@ VertLine genLine(RayVariables& ray, Map& map, int x, int side) {
 }
 
 VertLine RayCaster::castRay(RayCamera &rayCam, int x) {
-	VertLine			result;
 	RayVariables	ray;
 	int						side;
 
@@ -147,8 +146,7 @@ void RayCaster::handleInput() {
 		if (map.getCoord(int(rayCam.camPos.x), (int)(rayCam.camPos.y - rayCam.dV.y * moveSpeed)) != '#')
 			rayCam.camPos.y -= rayCam.dV.y * moveSpeed;
 	}
-	if (IsKeyDown(KEY_RIGHT))
-	{
+	if (IsKeyDown(KEY_RIGHT)) {
 		double oldDirX = rayCam.dV.x;
 		rayCam.dV.x = rayCam.dV.x * cos(-rotSpeed) - rayCam.dV.y * sin(-rotSpeed);
 		rayCam.dV.y = oldDirX * sin(-rotSpeed) + rayCam.dV.y * cos(-rotSpeed);

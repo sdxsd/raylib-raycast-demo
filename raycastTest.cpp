@@ -5,10 +5,10 @@
 int main(void) {
 	Texture2D	frameTex;
 	Image			frame;
-
 	RayCaster	rayCaster;
 	InitWindow(WIN_WIDTH, WIN_HEIGHT, "Raycast-raylib-demo");
 	SetTargetFPS(60);
+	SetTraceLogLevel(LOG_WARNING);
 		while (!WindowShouldClose()) {
 			frame = rayCaster.renderFrame();
 			frameTex = LoadTextureFromImage(frame);
