@@ -18,7 +18,7 @@ Map::Map(const int x, const int y) {
 		mapData[i] = new char[x + 1];
 	for (int i = 0; i < height; i++)
 		for (int z = 0; z < width; z++)
-			mapData[i][z] = '#';
+			mapData[i][z] = '.';
 	mapGenerate();
 }
 
@@ -53,16 +53,16 @@ char **Map::mapGenerate(void) {
 		switch (direction) {
 			case 0:
 				for (int i = 0; y > 0 && i < length; i++)
-					mapData[y--][x] = '.';
+					mapData[y--][x] = '#';
 			case 1:
 				for (int i = 0; y < height && i < length; i++)
-					mapData[y++][x] = '.';
+					mapData[y++][x] = '#';
 			case 2:
 				for (int i = 0; x > 0 && i < length; i++)
-					mapData[y][x--] = '.';
+					mapData[y][x--] = '#';
 			case 3:
 				for (int i = 0; x < width && i < length; i++)
-					mapData[y][x++] = '.';
+					mapData[y][x++] = '#';
 		}
 		if (x == width || y == height) {
 			x = start_x;
@@ -71,6 +71,7 @@ char **Map::mapGenerate(void) {
 		g_tunnels++;
 	}
 	borderWalls();
+	mapData[startPos.y][startPos.y] = '.';
 	return (mapData);
 }
 

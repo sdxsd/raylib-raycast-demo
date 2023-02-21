@@ -16,7 +16,7 @@ class RayCaster {
 	private:
 		Image		imageBuffer;
 		RayCamera	rayCam;
-		Map			map;
+		Map		map;
 		VertLine	castRay(RayCamera& rayCam, int x);
 		void		drawVert(VertLine line);
 	public:
