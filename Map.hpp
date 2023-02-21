@@ -9,8 +9,8 @@
 class Map {
 	private:
 		char		**mapData;
-		int			height;
-		int			width;
+		int		height;
+		int		width;
 		IntVector2	startPos;
 	public:
 		Map(const int x, const int y);
@@ -19,7 +19,7 @@ class Map {
 		void	printMap(void);
 		void	borderWalls(void);
 		// Getters.
-		char	getCoord(int x, int y) { return (mapData[y][x]); };
+		char		getCoord(int x, int y) { return (mapData[y][x]); };
 		int		getHeight(void) const { return (height); };
 		int		getWidth(void) const { return (width); };
 		IntVector2	getStart(void) const { return (startPos); };

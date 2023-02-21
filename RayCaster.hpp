@@ -7,8 +7,8 @@
 #define D_MAPSIZE_X 24
 #define D_MAPSIZE_Y 24
 
-#define WIN_WIDTH 640
-#define WIN_HEIGHT 640
+#define WIN_WIDTH 1152
+#define WIN_HEIGHT 1152
 
 #include "Structs.hpp"
 
