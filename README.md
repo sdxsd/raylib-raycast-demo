@@ -2,6 +2,6 @@
 A raycaster implemented using the tutorial at [lodev.org](lodev.org/cgtutor/raycasting.html).
 
 ### Screenshot
-![Raycaster sceenshot](screenshot.png){width=250}
+![Raycaster sceenshot](screenshot.png)
 
 
